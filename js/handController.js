@@ -227,7 +227,7 @@ class HandController {
      */
     getHandPosition(gameWidth, gameHeight) {
         return {
-            x: this.handX * gameWidth,
+            x: (1 - this.handX) * gameWidth, // Mirror X for natural player movement
             y: this.handY * gameHeight
         };
     }
