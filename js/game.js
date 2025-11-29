@@ -23,7 +23,7 @@ class Game {
         this.player = {
             x: 0,
             y: 0,
-            radius: 12,
+            radius: 8, // Smaller radius for easier navigation
             color: '#667eea',
             targetX: 0,
             targetY: 0,
@@ -34,7 +34,7 @@ class Game {
         this.goal = {
             x: 0,
             y: 0,
-            radius: 20,
+            radius: 15, // Smaller radius to fit better in cells
             color: '#4CAF50'
         };
         
@@ -54,12 +54,12 @@ class Game {
         
         // Calculate maze size based on level
         const baseSize = 8;
-        const sizeIncrease = Math.floor((level - 1) / 2) * 2;
-        const mazeSize = Math.min(baseSize + sizeIncrease, 20); // Max 20x20
+        const sizeIncrease = Math.floor((level - 1) / 2) * 1; // Slower increase
+        const mazeSize = Math.min(baseSize + sizeIncrease, 15); // Max 15x15 for wider corridors
         
-        // Adjust cell size based on maze size
+        // Adjust cell size based on maze size with minimum size
         const maxCanvasSize = Math.min(this.canvas.width, this.canvas.height);
-        this.cellSize = Math.floor(maxCanvasSize / mazeSize);
+        this.cellSize = Math.max(Math.floor(maxCanvasSize / mazeSize), 45); // Min 45px cells
         
         // Create maze
         this.maze = new Maze(mazeSize, mazeSize, this.cellSize);
