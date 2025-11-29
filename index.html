@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaPipe Maze Game</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- MediaPipe Libraries from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="welcome-container">
+            <h1>🎮 MediaPipe Maze Game</h1>
+            <p>Χρησιμοποιήστε το χέρι σας για να ελέγξετε το ανθρωπάκι!</p>
+            <div class="input-group">
+                <label for="playerName">Εισάγετε το όνομά σας:</label>
+                <input type="text" id="playerName" placeholder="Το όνομά σας" maxlength="20">
+            </div>
+            <button id="startButton" class="btn-primary">Ξεκινήστε το Παιχνίδι</button>
+            <div id="cameraStatus" class="status-message"></div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <div class="game-container">
+            <!-- Header with stats -->
+            <div class="game-header">
+                <div class="player-info">
+                    <span class="player-name" id="displayPlayerName"></span>
+                </div>
+                <div class="game-stats">
+                    <div class="stat">
+                        <span class="stat-label">Επίπεδο:</span>
+                        <span class="stat-value" id="currentLevel">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Χρόνος:</span>
+                        <span class="stat-value" id="timer">0.0s</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Απόσταση:</span>
+                        <span class="stat-value" id="distance">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Best Score:</span>
+                        <span class="stat-value" id="bestScore">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container">
+                <!-- Video element for camera (hidden) -->
+                <video id="videoElement" class="input-video" playsinline></video>
+                
+                <!-- Canvas for hand tracking visualization -->
+                <canvas id="handCanvas" class="hand-canvas"></canvas>
+                
+                <!-- Main game canvas -->
+                <canvas id="gameCanvas" class="game-canvas"></canvas>
+            </div>
+
+            <!-- Instructions -->
+            <div class="instructions">
+                <p>📌 Δείξτε το δείκτη σας στην κάμερα για να ελέγξετε το ανθρωπάκι</p>
+                <p>🎯 Φτάστε στο πράσινο τετράγωνο για να ολοκληρώσετε το επίπεδο!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Complete Screen -->
+    <div id="levelCompleteScreen" class="screen">
+        <div class="complete-container">
+            <h2>🎉 Συγχαρητήρια!</h2>
+            <p>Ολοκληρώσατε το επίπεδο <span id="completedLevel"></span>!</p>
+            
+            <div class="score-display">
+                <div class="score-item">
+                    <span class="score-label">Χρόνος:</span>
+                    <span class="score-value" id="finalTime"></span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Απόσταση:</span>
+                    <span class="score-value" id="finalDistance"></span>
+                </div>
+                <div class="score-item highlight">
+                    <span class="score-label">Σκορ:</span>
+                    <span class="score-value" id="currentScore"></span>
+                </div>
+                <div class="score-item highlight">
+                    <span class="score-label">Best Score:</span>
+                    <span class="score-value" id="sessionBestScore"></span>
+                </div>
+            </div>
+
+            <button id="nextLevelButton" class="btn-primary">Επόμενο Επίπεδο</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Φόρτωση MediaPipe...</p>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/maze.js"></script>
+    <script src="js/scoreManager.js"></script>
+    <script src="js/handController.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
