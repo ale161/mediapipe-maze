@@ -200,6 +200,11 @@ class Maze {
      * Draw the maze on canvas
      */
     draw(ctx) {
+        // Draw semi-transparent white background for maze visibility
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+        ctx.fillRect(0, 0, this.width, this.height);
+        
+        // Draw maze walls
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 3;
 
