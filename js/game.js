@@ -215,8 +215,8 @@ class Game {
      * Render game
      */
     render() {
-        // Clear canvas
-        this.ctx.fillStyle = '#ffffff';
+        // Clear canvas with semi-transparent white for better visibility
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
         // Draw maze

@@ -82,7 +82,7 @@ class HandController {
         this.canvasCtx.save();
         this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
 
-        // Draw camera feed (mirrored)
+        // Draw camera feed (mirrored) in background
         this.canvasCtx.translate(this.canvasElement.width, 0);
         this.canvasCtx.scale(-1, 1);
         this.canvasCtx.drawImage(
@@ -97,8 +97,8 @@ class HandController {
         if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
             const landmarks = results.multiHandLandmarks[0];
             
-            // Draw hand landmarks
-            this.drawHandLandmarks(landmarks);
+            // Optionally draw hand landmarks (commented out for cleaner view)
+            // this.drawHandLandmarks(landmarks);
             
             // Get index finger tip (landmark 8)
             const indexFingerTip = landmarks[8];
@@ -126,8 +126,8 @@ class HandController {
                 this.onHandPositionUpdate(this.handX, this.handY);
             }
             
-            // Draw pointer indicator
-            this.drawPointer(this.handX, this.handY);
+            // Draw pointer indicator on hand
+            this.drawPointer(this.handX, this.handY, landmarks[8]);
         } else {
             // No hand detected
             if (this.isHandDetected) {
@@ -197,31 +197,28 @@ class HandController {
     /**
      * Draw pointer indicator
      */
-    drawPointer(normalizedX, normalizedY) {
+    drawPointer(normalizedX, normalizedY, landmark) {
         const ctx = this.canvasCtx;
-        const x = normalizedX * this.canvasElement.width;
+        // Mirror X coordinate for display
+        const x = (1 - normalizedX) * this.canvasElement.width;
         const y = normalizedY * this.canvasElement.height;
         
-        // Draw crosshair
-        ctx.strokeStyle = '#ff0000';
-        ctx.lineWidth = 2;
+        // Draw glowing circle at finger tip
+        ctx.shadowColor = '#00ff00';
+        ctx.shadowBlur = 20;
         
-        // Horizontal line
         ctx.beginPath();
-        ctx.moveTo(x - 15, y);
-        ctx.lineTo(x + 15, y);
+        ctx.arc(x, y, 15, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+        ctx.fill();
+        
+        ctx.strokeStyle = '#00ff00';
+        ctx.lineWidth = 3;
         ctx.stroke();
         
-        // Vertical line
-        ctx.beginPath();
-        ctx.moveTo(x, y - 15);
-        ctx.lineTo(x, y + 15);
-        ctx.stroke();
-        
-        // Circle
-        ctx.beginPath();
-        ctx.arc(x, y, 10, 0, 2 * Math.PI);
-        ctx.stroke();
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
     }
 
     /**
