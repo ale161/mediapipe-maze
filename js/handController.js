@@ -104,7 +104,8 @@ class HandController {
             const indexFingerTip = landmarks[8];
             
             // Update hand position with smoothing
-            const targetX = 1 - indexFingerTip.x; // Mirror X coordinate
+            // Use direct X coordinate (no mirroring) for natural movement
+            const targetX = indexFingerTip.x;
             const targetY = indexFingerTip.y;
             
             this.handX = this.prevHandX + (targetX - this.prevHandX) * this.smoothFactor;
